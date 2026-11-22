@@ -12,13 +12,14 @@
 | Debian 12 или Ubuntu 24.04 x64 | [Скачать Linux DEB](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.3/Colposcopy-Linux-x64.deb) и выполните `sudo apt install ./Colposcopy-Linux-x64.deb`. «Кольпоскопия» появится в меню приложений. |
 | Сервер Linux x64 | [Скачать серверный архив](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.3/Colposcopy-Server-Linux-x64.tar.gz). Распакуйте его и запустите по руководству администратора. |
 
-[Контрольные суммы SHA-256](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.3/SHA256SUMS)
+[Контрольные суммы SHA-256](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.3/SHA256SUMS) · [Лицензионные уведомления](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.3/Colposcopy-License-Notices.zip)
 
 Для работы клиенту нужны адрес своего сервера, ключ рабочего места и учётная запись врача. Linux-клиент поддерживает импорт снимков, просмотр PDF и печать через CUPS. Для прямого захвата с камеры используется Windows-клиент.
 
 - [Установка и администрирование](public/docs/ADMIN.md)
 - [Работа врача](public/docs/DOCTOR.md)
 - [GNU Affero General Public License v3.0](LICENSE)
+- [Лицензии сторонних компонентов](public/docs/LICENSING.md)
 
 ## Лицензия
 
