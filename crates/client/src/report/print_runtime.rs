@@ -160,6 +160,9 @@ pub(super) fn runtime() -> Result<PathBuf, String> {
                 .join("../../tmp/print-runtime-bundle")
                 .join(&m.archive)
         };
+        if cfg!(feature = "standalone") && !archive.is_file() {
+            return Err("Установите компоненты печати через Setup.ps1 или Install-PrintRuntime.ps1".into());
+        }
         check_file(&archive, m.archive_size, &m.archive_sha256)?;
         fs::create_dir_all(&root).map_err(|_| "Не удалось подготовить компоненты печати")?;
         let stage = root.join(format!("stage-{}", uuid::Uuid::new_v4()));

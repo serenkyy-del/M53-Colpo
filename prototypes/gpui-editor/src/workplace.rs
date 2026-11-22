@@ -1973,6 +1973,10 @@ impl Workplace {
                 .when(!cfg!(feature = "standalone") && self.manual_login && std::env::var("M53_LEGACY_LOGIN").as_deref()==Ok("1"),|d|d.child(Input::new(&self.login).disabled(self.auth_busy)).child(div().text_sm().text_color(cx.theme().muted_foreground).child("После успешного входа врач появится в списке на этом компьютере.")))
                 .child(v_flex().gap_1().child("Пароль").child(Input::new(&self.password).disabled(self.auth_busy)))
                 .child(Button::new("login").primary().label(if self.auth_busy {"Вход…"} else {"Войти"}).disabled(self.auth_busy).on_click(cx.listener(|s,_,w,cx|s.authenticate(w,cx))))
+                .when(cfg!(feature = "standalone"), |view| view.child(
+                    Button::new("source-license").ghost().label("Исходный код и лицензия")
+                        .on_click(|_, _, cx| cx.open_url(m53_client::public_source_url()))
+                ))
                 .child(Button::new("connection-settings").ghost().label("Настройки подключения").on_click(cx.listener(|s,_,_,cx|{s.navigate(Screen::Settings,cx);})))
         ).into_any_element()
     }

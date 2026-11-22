@@ -4,15 +4,15 @@
 
 ## Установка
 
-Готовые пакеты [v0.1.0-preview.2](https://github.com/serenkyy-del/M53-Colpo/releases/tag/v0.1.0-preview.2) устанавливаются без компиляции.
+Готовые пакеты [v0.1.0-preview.3](https://github.com/serenkyy-del/M53-Colpo/releases/tag/v0.1.0-preview.3) устанавливаются без компиляции.
 
 | Платформа | Файл и запуск |
 | --- | --- |
-| Windows 10/11 x64 | [Скачать Windows ZIP](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/Colposcopy-Windows-x64.zip). Распакуйте архив и запустите `Colposcopy.exe` из этой папки. Установщик preview.2 отклоняет часть путей к лицензиям. |
-| Debian 12 или Ubuntu 24.04 x64 | [Скачать Linux DEB](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/Colposcopy-Linux-x64.deb) и выполните `sudo apt install ./Colposcopy-Linux-x64.deb`. «Кольпоскопия» появится в меню приложений. |
-| Сервер Linux x64 | [Скачать серверный архив](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/Colposcopy-Server-Linux-x64.tar.gz). Распакуйте его и загрузите образ по руководству администратора. |
+| Windows 10/11 x64 | [Скачать Windows ZIP](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.3/Colposcopy-Windows-x64.zip). Распакуйте архив и запустите `Setup.ps1`. При первой установке сценарий скачает и проверит компоненты печати. |
+| Debian 12 или Ubuntu 24.04 x64 | [Скачать Linux DEB](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.3/Colposcopy-Linux-x64.deb) и выполните `sudo apt install ./Colposcopy-Linux-x64.deb`. «Кольпоскопия» появится в меню приложений. |
+| Сервер Linux x64 | [Скачать серверный архив](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.3/Colposcopy-Server-Linux-x64.tar.gz). Распакуйте его и запустите по руководству администратора. |
 
-[Контрольные суммы SHA-256](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/SHA256SUMS)
+[Контрольные суммы SHA-256](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.3/SHA256SUMS)
 
 Для работы клиенту нужны адрес своего сервера, ключ рабочего места и учётная запись врача. Linux-клиент поддерживает импорт снимков, просмотр PDF и печать через CUPS. Для прямого захвата с камеры используется Windows-клиент.
 
@@ -24,4 +24,4 @@
 
 Собственный код публичной редакции распространяется по AGPL-3.0-only. Его можно использовать, изменять и распространять. При распространении сборки предоставьте получателям соответствующий исходный код по условиям раздела 6. Если пользователи работают с вашей изменённой версией по сети, разместите для них заметную ссылку на бесплатное получение исходного кода этой версии. Сторонние компоненты сохраняют свои лицензии.
 
-Для прогона установки используйте вымышленных пациентов и синтетические снимки. Для применения с реальными данными организация определяет допустимый сценарий использования, правила хранения и допущенные справочники.
+Предварительный выпуск предназначен для проверки на вымышленных пациентах и синтетических снимках. До клинического применения организация определяет применимые требования к программе, хранению данных и справочникам.

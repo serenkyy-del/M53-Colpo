@@ -21,7 +21,7 @@ jobs:
       - name: Verify the published ZIP checksum
         shell: pwsh
         run: |
-          $base = 'https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2'
+          $base = 'https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.3'
           Invoke-WebRequest "$base/Colposcopy-Windows-x64.zip" -OutFile published.zip
           Invoke-WebRequest "$base/SHA256SUMS" -OutFile SHA256SUMS
           $sums = Get-Content -LiteralPath SHA256SUMS -Encoding UTF8 -Raw

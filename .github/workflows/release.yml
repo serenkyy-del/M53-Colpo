@@ -7,12 +7,17 @@ on:
 permissions:
   contents: read
 
+env:
+  COLPOSCOPY_SOURCE_URL: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
+
 jobs:
   windows:
     runs-on: windows-2025
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
         with:
           python-version: '3.12'
       - name: Build and package Windows x64
@@ -20,16 +25,21 @@ jobs:
         run: |
           rustup target add x86_64-pc-windows-msvc
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          python public/windows/provision-runtime.py --cache print-cache --output print-runtime
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          python public/windows/verify.py print-runtime/m53-print-runtime.zip assets/print-runtime/manifest.json
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           cargo metadata --manifest-path prototypes/gpui-editor/Cargo.toml --locked --format-version 1 --filter-platform x86_64-pc-windows-msvc --features standalone | Set-Content -Encoding utf8 metadata.json
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python public/release/collect_notices.py metadata.json WindowsNotices
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          & public/windows/package.ps1 -RuntimeArchive print-runtime/m53-print-runtime.zip -RustLicensesDirectory WindowsNotices -OutputDirectory release
-      - uses: actions/upload-artifact@v4
+          & public/windows/package.ps1 -RustLicensesDirectory WindowsNotices -OutputDirectory release
+      - name: Install the Windows package and verify its window
+        shell: pwsh
+        run: |
+          try { & public/windows/test-setup.ps1 -Archive release/Colposcopy-Windows-x64.zip }
+          catch {
+            $message = $_.Exception.Message -replace '[\r\n]+', ' '
+            Write-Output "::error title=Windows installer::$message"
+            throw
+          }
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: windows
           path: release/Colposcopy-Windows-x64.zip
@@ -38,7 +48,9 @@ jobs:
   linux:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
       - name: Build Linux desktop x64
         run: |
           docker build -t colposcopy-linux-builder:bookworm public/linux
@@ -46,7 +58,7 @@ jobs:
           version="${GITHUB_REF_NAME#v}"
           version="${version/-preview./~preview.}"
           docker run --rm --user "$(id -u):$(id -g)" \
-            -e CARGO_HOME=/build/cargo -e CARGO_TARGET_DIR=/build/target -e "PACKAGE_VERSION=$version" \
+            -e CARGO_HOME=/build/cargo -e CARGO_TARGET_DIR=/build/target -e "PACKAGE_VERSION=$version" -e COLPOSCOPY_SOURCE_URL \
             -v "$PWD:/src:ro" -v "$PWD/build-linux:/build" -v "$PWD/release:/out" -w /src \
             colposcopy-linux-builder:bookworm sh -ec '
             cargo metadata --manifest-path prototypes/gpui-editor/Cargo.toml --locked --format-version 1 --filter-platform x86_64-unknown-linux-gnu --features standalone > /build/metadata.json
@@ -63,7 +75,7 @@ jobs:
           bash public/deploy/package-server.sh release
           git archive --format=zip --output=release/Colposcopy-Source.zip HEAD
           python3 public/release/dependency_sources.py release/Colposcopy-DependencySources.tar.gz --cache build-linux/cargo/registry/cache
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: linux-and-source
           path: |
@@ -79,8 +91,10 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           path: release
           merge-multiple: true
@@ -88,6 +102,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          python3 public/release/verify_release.py release --release-url "$COLPOSCOPY_SOURCE_URL"
           (cd release && sha256sum Colposcopy-* > SHA256SUMS)
-          gh release create "$GITHUB_REF_NAME" --verify-tag --prerelease \
+          gh release create "$GITHUB_REF_NAME" --verify-tag --prerelease --draft \
             --title "M53-Colpo $GITHUB_REF_NAME" --notes-file public/release/NOTES.md release/*
+          gh release edit "$GITHUB_REF_NAME" --draft=false

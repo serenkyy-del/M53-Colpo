@@ -2,14 +2,13 @@
 
 Готовый серверный комплект предназначен для Linux x86-64 с Docker Engine, Compose v2, Python 3 и HTTPS reverse proxy. Скачайте архив выпуска, сверьте SHA-256 и извлеките его в новый каталог.
 
-Выполняйте команды из `public/deploy`. База создаётся пустой: без пациентов, обследований и интеграций. Не используйте существующие базы или тома другого приложения. Внутренние имена переменных и базы сохранены для совместимости протокола.
+Выполняйте команды из `public/deploy`. При первой установке создаётся пустая база. Не используйте существующие базы или тома другого приложения. Внутренние имена переменных и базы сохранены для совместимости протокола.
 
 ## Первый запуск
 
-Из корня распакованного комплекта загрузите готовый образ.
+В распакованном комплекте уже есть исполняемый файл сервера. Docker Compose скачает официальные системные образы Debian и PostgreSQL.
 
 ```sh
-docker image load -i colposcopy-server-image.tar
 cd public/deploy
 python3 configure.py
 # private имеет режим 0700. Локальный Compose монтирует secrets с правами
@@ -20,10 +19,10 @@ chmod 0444 private/*
 docker run --rm --user "$(id -u):$(id -g)" \
   --entrypoint /usr/local/bin/server \
   -e M53_OFFLINE_SIGNING_KEY_FILE=/keys/offline_key \
-  -v "$PWD/private:/keys" colposcopy-public:local generate-offline-key
+  -v "$PWD/bin/colposcopy-server:/usr/local/bin/server:ro" \
+  -v "$PWD/private:/keys" debian:bookworm-slim generate-offline-key
 chmod 0444 private/offline_key
-docker compose up -d db
-# Дождитесь healthy через docker compose ps.
+docker compose up -d --wait db
 # Только миграционная роль; пароль не попадает в аргументы psql.
 python3 migration_sql.py > private/migrations.sql
 docker compose exec -T db sh -c 'export PGPASSWORD="$(cat /run/secrets/migrator_password)"; exec psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -U colposcopy_migrator -d m53colpo' < private/migrations.sql
@@ -77,11 +76,11 @@ docker compose run --rm -v "$PWD/private/review.json:/review.json:ro" admin appr
 
 В Compose включены подписанные автономные разрешения сроком до 30 дней. Ключ подписи необходимо сохранять вместе с резервной копией; его утрата не исправляется копированием профиля. Первичный вход требует онлайн-соединения.
 
-При сетевой эксплуатации изменённой версии опубликуйте для её удалённых пользователей заметную ссылку на бесплатное получение исходного кода именно этой сборки. Это условие раздела 13. [AGPL-3.0](../../LICENSE)
+При сетевой эксплуатации изменённой версии предоставьте пользователям бесплатный доступ к исходному коду именно этой сборки. В сборку клиента можно передать URL соответствующего выпуска через переменную `COLPOSCOPY_SOURCE_URL`. Это условие раздела 13. [AGPL-3.0](../../LICENSE)
 
 ## Резервная копия и восстановление
 
-Согласованная копия включает PostgreSQL, assets, private, исходники/образ того же выпуска и настройки reverse proxy. Каталог копий должен быть вне публичного веб-каталога, с шифрованием и ограниченным доступом. Остановите server, чтобы между дампом и архивом assets не появились новые ссылки:
+Согласованная копия включает PostgreSQL, assets, private, исходники и серверный пакет того же выпуска и настройки reverse proxy. Каталог копий должен быть вне публичного веб-каталога, с шифрованием и ограниченным доступом. Остановите server, чтобы между дампом и архивом assets не появились новые ссылки:
 
 ```sh
 umask 077
@@ -93,10 +92,11 @@ tar -czf backups/private.tgz private
 docker compose start server
 ```
 
-При ошибке любой команды не считайте копию готовой. Сохраните контрольные суммы и проверьте восстановление отдельно. На новом изолированном хосте восстановите private с каталогом 0700, установите тот же образ, создайте пустые тома и запустите только db. Скрипт init создаст роли. Затем восстановите дамп и assets:
+При ошибке любой команды не считайте копию готовой. Сохраните контрольные суммы и проверьте восстановление отдельно. На новом изолированном хосте восстановите private с каталогом 0700, распакуйте серверный пакет той же версии, создайте пустые тома и запустите только db. Скрипт init создаст роли. Затем восстановите дамп и assets:
 
 ```sh
 docker compose exec -T db pg_restore -U postgres -d m53colpo --exit-on-error --clean --if-exists < backups/database.dump
+docker compose run --rm assets-init
 docker compose run --rm -T --no-deps --entrypoint tar server -C /assets -xzf - < backups/assets.tgz
 docker compose up -d server
 curl --fail http://127.0.0.1:8787/ready

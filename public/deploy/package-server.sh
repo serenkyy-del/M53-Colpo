@@ -7,9 +7,14 @@ output=$(cd "$1" && pwd)
 archive="$output/Colposcopy-Server-Linux-x64.tar.gz"
 if [[ -e "$archive" ]]; then printf 'Server package already exists\n' >&2; exit 2; fi
 stage=$(mktemp -d)
-trap 'rm -rf -- "$stage"' EXIT
-mkdir -p "$stage/public/deploy" "$stage/public/docs"
-for file in .gitignore compose.yaml configure.py init-db.sh migration_sql.py; do
+container=
+cleanup() {
+    if [[ -n "$container" ]]; then docker rm "$container" >/dev/null; fi
+    rm -rf -- "$stage"
+}
+trap cleanup EXIT
+mkdir -p "$stage/public/deploy/bin" "$stage/public/docs"
+for file in .gitignore compose.yaml configure.py entrypoint.sh init-db.sh migration_sql.py; do
     cp "$root/public/deploy/$file" "$stage/public/deploy/"
 done
 cp -r "$root/migrations" "$stage/"
@@ -20,6 +25,8 @@ if [[ $(docker image inspect --format '{{.Os}}/{{.Architecture}}' colposcopy-pub
     printf 'The server image must be built for Linux x86-64\n' >&2
     exit 2
 fi
-docker image save colposcopy-public:local --output "$stage/colposcopy-server-image.tar"
+container=$(docker create colposcopy-public:local)
+docker cp "$container:/usr/local/bin/server" "$stage/public/deploy/bin/colposcopy-server"
+chmod 0755 "$stage/public/deploy/bin/colposcopy-server"
 tar -C "$stage" -czf "$archive" .
 printf '%s\n' "$archive"

@@ -6,10 +6,10 @@ A prebuilt standalone binary can be supplied with `-AppExe` for independent
 packaging. Verify its provenance and target yourself; renaming does not convert
 an integrated build to the standalone edition.
 
-The client embeds `assets/print-runtime/manifest.json`. Its archive hash must
-match the packaged runtime exactly. For a clean build, Python 3.11+ can download
-the pinned public Chromium/PDF.js sources, verify source and every selected file
-SHA-256, and produce a deterministic ZIP_STORED archive:
+The client and installer use `assets/print-runtime/manifest.json`. The installer
+retrieves the official archives and verifies SHA-256 of each archive and each
+installed file. Python 3.11+ can also build a local runtime archive for developer
+tests:
 
 ```text
 python public/windows/provision-runtime.py --cache /path/to/download-cache --output /path/to/new-runtime
@@ -27,8 +27,8 @@ No Rust runtime checksum bypass is needed.
 Collect all Rust dependency license notices for the exact isolated
 `prototypes/gpui-editor/Cargo.lock` used for this build in a separate directory.
 The packaging script requires that directory; it does not certify completeness.
-Chromium and PDF.js license files remain in the verified print runtime archive;
-the font license is copied separately. The application uses AGPL-3.0-only.
+Chromium and PDF.js retain their license notices in the installed print runtime.
+The release ZIP contains the font and Rust notices. The application uses AGPL-3.0-only.
 For distribution via downloads, provide the matching Colposcopy-Source.zip and
 the rest of the Corresponding Source required by section 6 alongside the Windows
 ZIP. Include the build and installation scripts and the source of covered
@@ -37,7 +37,7 @@ dependencies, preserving their license notices.
 Run from the repository root:
 
 ```powershell
-public/windows/package.ps1 -RuntimeArchive C:\build\runtime\m53-print-runtime.zip -RustLicensesDirectory C:\build\notices -OutputDirectory C:\build\release
+public/windows/package.ps1 -RustLicensesDirectory C:\build\notices -OutputDirectory C:\build\release
 ```
 
 For independent packaging add `-AppExe C:\build\Colposcopy.exe`. Optional
@@ -46,7 +46,7 @@ the official Visual C++ x64 redistributable separately. Review the executable's
 imported DLLs for the actual build. Package creation does not sign the executable.
 
 Output is `Colposcopy-Windows-x64.zip` plus `.sha256`. Package content includes
-Colposcopy.exe, Setup.ps1, README, print archive, its manifest and license notices.
+Colposcopy.exe, Setup.ps1, the print runtime downloader and manifest, README, and license notices.
 No profile, credentials, update keys or old updater are copied. Deliver the ZIP
 hash using an independent channel. Extract into a new folder and run Setup.ps1;
 the installer checks required files and hashes before copying and preserves the
