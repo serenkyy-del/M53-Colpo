@@ -1,0 +1,6 @@
+hexf-parse 0.2.1
+Upstream source: https://github.com/lifthrasiir/hexf/tree/4225763d744183d720f575ae96d04161b4d08ea0
+Published license declaration: CC0-1.0
+Text applicable to this redistribution: CC0-1.0. See the SPDX reference texts.
+Authors in the published Cargo manifest:
+Kang Seonghoon <public+rust@mearie.org>

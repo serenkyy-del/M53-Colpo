@@ -1,0 +1,10 @@
+pathfinder_geometry 0.5.1
+Upstream source: https://github.com/servo/pathfinder/tree/a5e98fac00f433fe2ff4b2135383d82491b8bfc5
+Published license declaration: MIT/Apache-2.0
+Text applicable to this redistribution: Apache-2.0. See the SPDX reference texts.
+Authors in the published Cargo manifest:
+Patrick Walton <pcwalton@mimiga.net>
+
+Copyright notices from the published source:
+Copyright © 2019 The Pathfinder Project Developers.
+Copyright © 2020 The Pathfinder Project Developers.

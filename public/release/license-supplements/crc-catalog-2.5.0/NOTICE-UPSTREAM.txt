@@ -1,0 +1,6 @@
+crc-catalog 2.5.0
+Upstream source: https://github.com/akhilles/crc-catalog/tree/ed4ad631f22b05055c21a3a4127eb7cf6d75bb62
+Published license declaration: MIT OR Apache-2.0
+Text applicable to this redistribution: Apache-2.0. See the SPDX reference texts.
+Authors in the published Cargo manifest:
+Akhil Velagapudi <akhilvelagapudi@gmail.com>

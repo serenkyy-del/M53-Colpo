@@ -1,0 +1,6 @@
+simd_helpers 0.1.0
+Upstream source: https://github.com/lu-zero/simd_helpers/tree/ca1a2f84aa386d758e98f8a609d990263932fb85
+Published license declaration: MIT
+Text applicable to this redistribution: MIT. See the SPDX reference texts.
+Authors in the published Cargo manifest:
+Luca Barbato <lu_zero@gentoo.org>

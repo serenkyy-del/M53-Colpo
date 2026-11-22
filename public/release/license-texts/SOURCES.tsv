@@ -1,0 +1,22 @@
+SPDX identifier	source	SHA-256 (LF)
+0BSD	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/0BSD.txt	e3f18c71e10d673590eb9856c1d79dd3b4b0d65404efb5e8584dbede7edd608b
+AGPL-3.0-only	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/AGPL-3.0-only.txt	d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee
+Apache-2.0	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/Apache-2.0.txt	074e6e32c86a4c0ef8b3ed25b721ca23aca83df277cd88106ef7177c354615ff
+BSD-2-Clause	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/BSD-2-Clause.txt	f32fb3b417a194167cfad068223fc975ba96c5960513a10f66a3c28720aec1df
+BSD-3-Clause	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/BSD-3-Clause.txt	5a93d5831e1297ab10fe643e1a631e83be392896da14ee2951285a79012df69d
+BSL-1.0	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/BSL-1.0.txt	84c6ef3ea9e3254a54d0acf5d3e0c61ae011b8fef7dd6940591cf060e6380a8f
+CC0-1.0	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/CC0-1.0.txt	a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499
+CDLA-Permissive-2.0	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/CDLA-Permissive-2.0.txt	4531a67d443284d93ffed0803df5b10634aff21c3d77e381f2d48af01d875868
+GPL-2.0-only	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/GPL-2.0-only.txt	aaf135472f81c5b4a0dca9367e5bb5e9750032b5bebe5442b36e4c0a47430df3
+ISC	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/ISC.txt	f2ec607f67bb0dd3053b49835b02110d5cd0f8eb6da3aac4dc0b142a6b299be9
+LGPL-2.1-or-later	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/LGPL-2.1-or-later.txt	5749785c8bdefafcb5d798270ed0a967036fe2ca63dcedade1627565dfef81d2
+LLVM-exception	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/LLVM-exception.txt	e34c58338bd89d43e709e226610d8f32b3e3c47f4ad9a99a8dc1d4ac7842488e
+MIT	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/MIT.txt	6d7c9e9d7d12c8d3753bdb24417b84819ba4d6c2f025c37948113d86dc81eef9
+MIT-0	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/MIT-0.txt	59746d6285ffa44bfc7ecada352aa5d6a20dc8eab418a60ce091cc739012c135
+MPL-2.0	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/MPL-2.0.txt	66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172
+NCSA	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/NCSA.txt	b31bbfd06e221b39e1a877fb3f91b32fe9e88c87c1b46d11cd2bd5c822ec71e3
+OFL-1.1	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/OFL-1.1.txt	8eea8287e5876b539670cadb82e99f9a7afddec6f6730811be1daf25d2e9bcfd
+Ubuntu-font-1.0	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/Ubuntu-font-1.0.txt	2f0015108d68627bd788d313f529c21ff4da2c2c42a5e1f3883acc83480f9002
+Unicode-3.0	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/Unicode-3.0.txt	f7db81051789b729fea528a63ec4c938fdcb93d9d61d97dc8cc2e9df6d47f2a1
+Unlicense	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/Unlicense.txt	0bdebfeda07d45dada625ae1317c6f833186e798b171d0db640bcf32e92a8240
+Zlib	https://raw.githubusercontent.com/spdx/license-list-data/8a04f0303d95c4f932210b118588c662665bd383/text/Zlib.txt	bfb1112d49db5b1daecdfef24bd7e2f3ea0bafb33aa67aa0ab51e2bf8407c03d

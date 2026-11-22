@@ -1,0 +1,38 @@
+name: Attach verified license notices to preview.3
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/license-notices-preview3.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  license-notices:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: v0.1.0-preview.3
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - name: Verify public packages and attach their license notices
+        run: |
+          set -euo pipefail
+          gh release download "$TAG" --dir audited \
+            --pattern 'Colposcopy-Windows-x64.zip' --pattern 'Colposcopy-Linux-x64.deb' \
+            --pattern 'Colposcopy-Server-Linux-x64.tar.gz' --pattern 'Colposcopy-Source.zip' \
+            --pattern 'Colposcopy-DependencySources.tar.gz' --pattern 'SHA256SUMS'
+          (cd audited && sha256sum --check SHA256SUMS)
+          python3 public/release/license_bundle.py audited \
+            --release-url "https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG" \
+            --output Colposcopy-License-Notices.zip
+          sha256sum Colposcopy-License-Notices.zip > Colposcopy-License-Notices.zip.sha256
+          gh release upload "$TAG" Colposcopy-License-Notices.zip Colposcopy-License-Notices.zip.sha256
+          gh release view "$TAG" --json body --jq .body > release-notes.md
+          printf '\nДля распространения вместе с пакетами сохраните [лицензионные уведомления](https://github.com/%s/releases/download/%s/Colposcopy-License-Notices.zip). Контрольная сумма доступна [отдельным файлом](https://github.com/%s/releases/download/%s/Colposcopy-License-Notices.zip.sha256).\n' \
+            "$GITHUB_REPOSITORY" "$TAG" "$GITHUB_REPOSITORY" "$TAG" >> release-notes.md
+          gh release edit "$TAG" --notes-file release-notes.md

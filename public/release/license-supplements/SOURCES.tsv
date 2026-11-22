@@ -1,0 +1,19 @@
+name	version	notice	source	SHA-256 (LF)
+accesskit_atspi_common	0.19.1	LICENSE-APACHE	https://raw.githubusercontent.com/AccessKit/accesskit/c88605b96d04431f9c3c792464a0f2f253480e94/LICENSE-APACHE	62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a
+accesskit_atspi_common	0.19.1	LICENSE-MIT	https://raw.githubusercontent.com/AccessKit/accesskit/c88605b96d04431f9c3c792464a0f2f253480e94/LICENSE-MIT	23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3
+accesskit_unix	0.22.1	LICENSE-APACHE	https://raw.githubusercontent.com/AccessKit/accesskit/c88605b96d04431f9c3c792464a0f2f253480e94/LICENSE-APACHE	62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a
+accesskit_unix	0.22.1	LICENSE-MIT	https://raw.githubusercontent.com/AccessKit/accesskit/c88605b96d04431f9c3c792464a0f2f253480e94/LICENSE-MIT	23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3
+crc-catalog	2.5.0	NOTICE-UPSTREAM.txt	https://github.com/akhilles/crc-catalog/tree/ed4ad631f22b05055c21a3a4127eb7cf6d75bb62	ecebb595e0249313eb1e7a4f7311db04670f9c10336ebc4fe2a9c40b2bc2fb25
+gpu-descriptor	0.3.2	COPYING	https://raw.githubusercontent.com/zakarumych/gpu-descriptor/bb28b4e55b742e0ea3e7a0968e7ee6287ba0e06a/COPYING	f72143f7e9d9fb8bd336b139fa22f825a299591c29f2f7338c5566347b137613
+gpu-descriptor-types	0.2.0	COPYING	https://raw.githubusercontent.com/zakarumych/gpu-descriptor/9f2fb9546591322e7b77ee1e79385e01effd85e4/COPYING	f72143f7e9d9fb8bd336b139fa22f825a299591c29f2f7338c5566347b137613
+harfrust	0.5.2	LICENSE	https://raw.githubusercontent.com/harfbuzz/harfrust/efdae3142ab76a2f1524d72cff9e3dfdc5afd7ca/LICENSE	3a7c3f0b887abb7c638faf022d29257418458614c6724b120ceeffb279f9c7d2
+hexf-parse	0.2.1	NOTICE-UPSTREAM.txt	https://github.com/lifthrasiir/hexf/tree/4225763d744183d720f575ae96d04161b4d08ea0	118694c794a9f7034e11f50b2e5463dbfbb7d889cd3c4d2604458cef4e4c5838
+mac	0.1.1	NOTICE-UPSTREAM.txt	https://github.com/reem/rust-mac/tree/0.1.1	272887d4b073eaf59432165f56ea305e51097b0a77eb5cbe0a7d89ab4323411a
+pathfinder_geometry	0.5.1	NOTICE-UPSTREAM.txt	https://github.com/servo/pathfinder/tree/a5e98fac00f433fe2ff4b2135383d82491b8bfc5	8b9ade5873104a5c0d31b18485d11d5b6bcd114fd21cbcf56ae00bbc4c2d2c6a
+pathfinder_simd	0.5.6	LICENSE-APACHE	https://raw.githubusercontent.com/servo/pathfinder/6c3c0466f451c5bd2007087728cd168798cd64e8/LICENSE-APACHE	a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2
+pathfinder_simd	0.5.6	LICENSE-MIT	https://raw.githubusercontent.com/servo/pathfinder/6c3c0466f451c5bd2007087728cd168798cd64e8/LICENSE-MIT	0621878e61f0d0fda054bcbe02df75192c28bde1ecc8289cbd86aeba2dd72720
+seahash	4.1.0	COPYRIGHT-Debian.txt	https://deb.debian.org/debian/pool/main/r/rust-seahash/rust-seahash_4.1.0-1.debian.tar.xz#debian/copyright	268296361f3ec03e3dfb8a893c35318226119c818f5e8b7866d209e24beda60f
+simd_helpers	0.1.0	NOTICE-UPSTREAM.txt	https://github.com/lu-zero/simd_helpers/tree/ca1a2f84aa386d758e98f8a609d990263932fb85	6e744f74cbf975b3f3c23d75c0080480b96523a7010a03bdd0b273ff9bb0d4e3
+spirv	0.4.0+sdk-1.4.341.0	LICENSE	https://raw.githubusercontent.com/gfx-rs/rspirv/8afc3d0ac8e158128cd1410bb2e4b4c26ab11bb4/LICENSE	cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30
+xim-ctext	0.3.0	LICENSE	https://raw.githubusercontent.com/Riey/xim-rs/65f77e44524ba487285a63aac4080faf2c05b4ed/LICENSE	efa1224931b98468f5005f77285457f8d2eab0a77a15941aa10abbab1ae9a74e
+xim-parser	0.2.2	LICENSE	https://raw.githubusercontent.com/Riey/xim-rs/7300de35a111de2df1a694bf70454532a8419685/LICENSE	efa1224931b98468f5005f77285457f8d2eab0a77a15941aa10abbab1ae9a74e

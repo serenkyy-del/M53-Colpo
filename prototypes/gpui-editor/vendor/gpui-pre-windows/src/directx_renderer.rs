@@ -1,3 +1,4 @@
+// Modified by M53-Colpo. The local changes are described in ../PATCHES.md.
 use std::{
     slice,
     sync::{Arc, OnceLock},

@@ -1,3 +1,4 @@
+// Modified by M53-Colpo. The local changes are described in ../PATCHES.md.
 use anyhow::{Context, Result};
 use gpui_util::ResultExt;
 use itertools::Itertools;

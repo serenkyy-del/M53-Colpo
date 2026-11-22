@@ -103,6 +103,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           python3 public/release/verify_release.py release --release-url "$COLPOSCOPY_SOURCE_URL"
+          python3 public/release/license_bundle.py release --release-url "$COLPOSCOPY_SOURCE_URL" --output release/Colposcopy-License-Notices.zip
           (cd release && sha256sum Colposcopy-* > SHA256SUMS)
           gh release create "$GITHUB_REF_NAME" --verify-tag --prerelease --draft \
             --title "M53-Colpo $GITHUB_REF_NAME" --notes-file public/release/NOTES.md release/*
