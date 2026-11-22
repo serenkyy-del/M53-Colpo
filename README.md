@@ -8,7 +8,7 @@
 
 | Платформа | Файл и запуск |
 | --- | --- |
-| Windows 10/11 x64 | [Скачать Windows ZIP](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/Colposcopy-Windows-x64.zip). Распакуйте архив. Запустите `Setup.ps1` для установки или `Colposcopy.exe` из распакованной папки. |
+| Windows 10/11 x64 | [Скачать Windows ZIP](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/Colposcopy-Windows-x64.zip). Распакуйте архив и запустите `Colposcopy.exe` из этой папки. Установщик preview.2 отклоняет часть путей к лицензиям. |
 | Debian 12 или Ubuntu 24.04 x64 | [Скачать Linux DEB](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/Colposcopy-Linux-x64.deb) и выполните `sudo apt install ./Colposcopy-Linux-x64.deb`. «Кольпоскопия» появится в меню приложений. |
 | Сервер Linux x64 | [Скачать серверный архив](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/Colposcopy-Server-Linux-x64.tar.gz). Распакуйте его и загрузите образ по руководству администратора. |
 
