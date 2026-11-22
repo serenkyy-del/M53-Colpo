@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NewPatient",
+  "type": "object",
+  "required": [
+    "family_name",
+    "given_name"
+  ],
+  "properties": {
+    "birth_date": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "family_name": {
+      "type": "string"
+    },
+    "given_name": {
+      "type": "string"
+    },
+    "patronymic": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

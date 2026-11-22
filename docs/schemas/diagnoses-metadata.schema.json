@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Metadata",
+  "type": "object",
+  "required": [
+    "count",
+    "source_id",
+    "synced_at",
+    "version_id"
+  ],
+  "properties": {
+    "count": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "source_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "synced_at": {
+      "type": "string"
+    },
+    "version_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  }
+}

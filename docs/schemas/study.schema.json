@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Study",
+  "type": "object",
+  "required": [
+    "id",
+    "patient_id",
+    "row_version",
+    "status",
+    "study_instance_uid"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "patient_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "row_version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "status": {
+      "type": "string"
+    },
+    "study_instance_uid": {
+      "type": "string"
+    }
+  }
+}

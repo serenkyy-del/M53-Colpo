@@ -1,0 +1,59 @@
+name: colposcopy-public
+services:
+  db:
+    image: postgres:16-bookworm
+    environment:
+      POSTGRES_DB: m53colpo
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    ports: ["127.0.0.1:55432:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/10-roles.sh:ro
+    secrets: [postgres_password, app_password, migrator_password]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U postgres -d m53colpo"]
+      interval: 5s
+      retries: 12
+    restart: unless-stopped
+  server:
+    build:
+      context: ../..
+      dockerfile: public/deploy/Dockerfile
+    image: colposcopy-public:local
+    network_mode: host
+    depends_on:
+      db: {condition: service_healthy}
+    environment:
+      M53_DEPLOYMENT_DATABASE: m53colpo
+      M53_LISTEN: 127.0.0.1:8787
+      M53_STORAGE_DIR: /assets
+      M53_OFFLINE_SIGNING_KEY_FILE: /run/secrets/offline_key
+      M53_OFFLINE_GRANT_DAYS: "30"
+      M53_OFFLINE_ALLOW_NEW_ENCOUNTERS: "1"
+    secrets: [app_password, offline_key]
+    volumes: ["assets:/assets"]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+  admin:
+    profiles: [admin]
+    image: colposcopy-public:local
+    network_mode: host
+    environment:
+      DEPLOY_ADMIN: "1"
+      M53_DEPLOYMENT_DATABASE: m53colpo
+      M53_USER_PASSWORD_FILE: /run/secrets/doctor_password
+      M53_WORKSTATION_KEY_FILE: /run/secrets/workstation_key
+    secrets: [migrator_password, doctor_password, workstation_key]
+secrets:
+  postgres_password: {file: ./private/postgres_password}
+  app_password: {file: ./private/app_password}
+  migrator_password: {file: ./private/migrator_password}
+  doctor_password: {file: ./private/doctor_password}
+  workstation_key: {file: ./private/workstation_key}
+  offline_key: {file: ./private/offline_key}
+volumes:
+  pgdata:
+  assets:

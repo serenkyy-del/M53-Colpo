@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SavedProtocol",
+  "type": "object",
+  "required": [
+    "revision_id",
+    "row_version",
+    "study_id"
+  ],
+  "properties": {
+    "revision_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "row_version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "study_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,2124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StudyDetail",
+  "type": "object",
+  "required": [
+    "annotations",
+    "assets",
+    "patient",
+    "study"
+  ],
+  "properties": {
+    "annotations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Annotation"
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Asset"
+      }
+    },
+    "mis_task_bound": {
+      "description": "Authoritative task binding; absent on older servers/caches means unverified.",
+      "default": false,
+      "type": "boolean"
+    },
+    "patient": {
+      "$ref": "#/definitions/Patient"
+    },
+    "protocol": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Protocol"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "revision_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "study": {
+      "$ref": "#/definitions/Study"
+    }
+  },
+  "definitions": {
+    "Adequacy": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "adequate"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "reason",
+            "state"
+          ],
+          "properties": {
+            "reason": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "inadequate"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Annotation": {
+      "type": "object",
+      "required": [
+        "asset_id",
+        "id",
+        "label",
+        "radius",
+        "x",
+        "y"
+      ],
+      "properties": {
+        "asset_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "coordinate_system": {
+          "default": "original_oriented_normalized_v1",
+          "allOf": [
+            {
+              "$ref": "#/definitions/AnnotationSpace"
+            }
+          ]
+        },
+        "finding_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "label": {
+          "type": "string"
+        },
+        "layer": {
+          "$ref": "#/definitions/AnnotationLayer"
+        },
+        "lesion_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "radius": {
+          "type": "number",
+          "format": "float"
+        },
+        "x": {
+          "type": "number",
+          "format": "float"
+        },
+        "y": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AnnotationLayer": {
+      "description": "Non-destructive layers in protocol_annotations, never in the original asset bytes.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "mark"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "description": "Arrow tail is x/y, tip is end_x/end_y in normalized original coordinates.",
+          "type": "object",
+          "required": [
+            "end_x",
+            "end_y",
+            "kind"
+          ],
+          "properties": {
+            "end_x": {
+              "type": "number",
+              "format": "float"
+            },
+            "end_y": {
+              "type": "number",
+              "format": "float"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "arrow"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "end_x",
+            "end_y",
+            "full_name",
+            "kind"
+          ],
+          "properties": {
+            "end_x": {
+              "type": "number",
+              "format": "float"
+            },
+            "end_y": {
+              "type": "number",
+              "format": "float"
+            },
+            "full_name": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "callout"
+              ]
+            },
+            "term_code": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "include_in_report",
+            "kind",
+            "rotation_degrees"
+          ],
+          "properties": {
+            "include_in_report": {
+              "type": "boolean"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "target"
+              ]
+            },
+            "rotation_degrees": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "description": "x/y are the top-left in EXIF-oriented original coordinates; radius is unused.",
+          "type": "object",
+          "required": [
+            "height",
+            "kind",
+            "width"
+          ],
+          "properties": {
+            "height": {
+              "type": "number",
+              "format": "float"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "output_region"
+              ]
+            },
+            "width": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "AnnotationSpace": {
+      "type": "string",
+      "enum": [
+        "original_oriented_normalized_v1"
+      ]
+    },
+    "Answer": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "value"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "text"
+              ]
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "value"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "choice"
+              ]
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "value"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "checked"
+              ]
+            },
+            "value": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_Adequacy": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "$ref": "#/definitions/Adequacy"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_Array_of_VaginalThird": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/VaginalThird"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_Array_of_VaginalWall": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/VaginalWall"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_CervicalTransformationZone": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "$ref": "#/definitions/CervicalTransformationZone"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_DentateLineRelation": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "$ref": "#/definitions/DentateLineRelation"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_ExcisionType": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "$ref": "#/definitions/ExcisionType"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_JunctionVisibility": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "$ref": "#/definitions/JunctionVisibility"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_String": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_Tissue": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "$ref": "#/definitions/Tissue"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_ZoneRelation": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "$ref": "#/definitions/ZoneRelation"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_double": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Assessment_for_uint8": {
+      "description": "Missing is explicit; it never means a negative clinical observation.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "value"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "assessed"
+              ]
+            },
+            "value": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_assessed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Asset": {
+      "type": "object",
+      "required": [
+        "byte_size",
+        "id",
+        "kind",
+        "mime_type",
+        "sha256",
+        "study_id"
+      ],
+      "properties": {
+        "byte_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "mime_type": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "study_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    "BiopsySpecimen": {
+      "type": "object",
+      "required": [
+        "id",
+        "location",
+        "material",
+        "region",
+        "sent_for_histology"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "lesion_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "location": {
+          "$ref": "#/definitions/Field_for_Assessment_for_String"
+        },
+        "material": {
+          "$ref": "#/definitions/Field_for_Assessment_for_String"
+        },
+        "region": {
+          "$ref": "#/definitions/Region"
+        },
+        "sent_for_histology": {
+          "$ref": "#/definitions/Field_for_FeatureState"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CervicalAssessment": {
+      "type": "object",
+      "required": [
+        "junction_visibility",
+        "transformation_zone"
+      ],
+      "properties": {
+        "junction_visibility": {
+          "$ref": "#/definitions/Field_for_Assessment_for_JunctionVisibility"
+        },
+        "transformation_zone": {
+          "$ref": "#/definitions/Field_for_Assessment_for_CervicalTransformationZone"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CervicalTransformationZone": {
+      "type": "string",
+      "enum": [
+        "type1",
+        "type2",
+        "type3"
+      ]
+    },
+    "ClinicalContext": {
+      "type": "object",
+      "required": [
+        "cycle",
+        "menopause",
+        "method",
+        "pregnancy"
+      ],
+      "properties": {
+        "cycle": {
+          "$ref": "#/definitions/Field_for_Assessment_for_String"
+        },
+        "menopause": {
+          "$ref": "#/definitions/Field_for_Assessment_for_String"
+        },
+        "method": {
+          "$ref": "#/definitions/Field_for_Assessment_for_String"
+        },
+        "pregnancy": {
+          "$ref": "#/definitions/Field_for_Assessment_for_String"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Colpo": {
+      "type": "object",
+      "required": [
+        "fields",
+        "marks"
+      ],
+      "properties": {
+        "fields": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Answer"
+          }
+        },
+        "mark_history": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Mark"
+          }
+        },
+        "marks": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Mark"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "DentateLineRelation": {
+      "type": "string",
+      "enum": [
+        "above",
+        "below",
+        "crossing"
+      ]
+    },
+    "ExaminationState": {
+      "type": "string",
+      "enum": [
+        "examined",
+        "not_examined",
+        "not_applicable"
+      ]
+    },
+    "ExcisionSection": {
+      "type": "object",
+      "required": [
+        "specimens",
+        "state"
+      ],
+      "properties": {
+        "specimens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExcisionSpecimen"
+          }
+        },
+        "state": {
+          "$ref": "#/definitions/Field_for_ExaminationState"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ExcisionSpecimen": {
+      "type": "object",
+      "required": [
+        "circumference_mm",
+        "excision_type",
+        "id",
+        "length_mm",
+        "thickness_mm"
+      ],
+      "properties": {
+        "circumference_mm": {
+          "$ref": "#/definitions/Field_for_Assessment_for_double"
+        },
+        "excision_type": {
+          "$ref": "#/definitions/Field_for_Assessment_for_ExcisionType"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "length_mm": {
+          "$ref": "#/definitions/Field_for_Assessment_for_double"
+        },
+        "thickness_mm": {
+          "$ref": "#/definitions/Field_for_Assessment_for_double"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ExcisionType": {
+      "type": "string",
+      "enum": [
+        "type1",
+        "type2",
+        "type3"
+      ]
+    },
+    "FeatureState": {
+      "type": "string",
+      "enum": [
+        "present",
+        "absent",
+        "not_assessed",
+        "not_applicable"
+      ]
+    },
+    "Field_for_Assessment_for_Adequacy": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_Adequacy"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_Assessment_for_Array_of_VaginalThird": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_Array_of_VaginalThird"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_Assessment_for_Array_of_VaginalWall": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_Array_of_VaginalWall"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_Assessment_for_CervicalTransformationZone": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_CervicalTransformationZone"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_Assessment_for_DentateLineRelation": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_DentateLineRelation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_Assessment_for_ExcisionType": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_ExcisionType"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_Assessment_for_JunctionVisibility": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_JunctionVisibility"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_Assessment_for_String": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_String"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_Assessment_for_Tissue": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_Tissue"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_Assessment_for_ZoneRelation": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_ZoneRelation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_Assessment_for_double": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_double"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_Assessment_for_uint8": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/Assessment_for_uint8"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_ExaminationState": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/ExaminationState"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_FeatureState": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/FeatureState"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Field_for_TestApplication": {
+      "type": "object",
+      "required": [
+        "origin",
+        "value"
+      ],
+      "properties": {
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "value": {
+          "$ref": "#/definitions/TestApplication"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Finding": {
+      "type": "object",
+      "required": [
+        "id",
+        "observation",
+        "physician_confirmed",
+        "term_code"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "observation": {
+          "$ref": "#/definitions/Field_for_FeatureState"
+        },
+        "physician_confirmed": {
+          "description": "Annotation proposals require an explicit physician confirmation for approval.",
+          "type": "boolean"
+        },
+        "term_code": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "JunctionVisibility": {
+      "type": "string",
+      "enum": [
+        "fully_visible",
+        "partially_visible",
+        "not_visible"
+      ]
+    },
+    "Lesion": {
+      "type": "object",
+      "required": [
+        "findings",
+        "id",
+        "location"
+      ],
+      "properties": {
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Finding"
+          }
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "location": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Location": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "affected_percent",
+            "clock_end",
+            "clock_start",
+            "quadrants",
+            "region",
+            "zone_relation"
+          ],
+          "properties": {
+            "affected_percent": {
+              "$ref": "#/definitions/Field_for_Assessment_for_double"
+            },
+            "clock_end": {
+              "$ref": "#/definitions/Field_for_Assessment_for_uint8"
+            },
+            "clock_start": {
+              "$ref": "#/definitions/Field_for_Assessment_for_uint8"
+            },
+            "quadrants": {
+              "$ref": "#/definitions/Field_for_Assessment_for_uint8"
+            },
+            "region": {
+              "type": "string",
+              "enum": [
+                "cervix"
+              ]
+            },
+            "zone_relation": {
+              "$ref": "#/definitions/Field_for_Assessment_for_ZoneRelation"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "region",
+            "thirds",
+            "walls",
+            "zone_relation"
+          ],
+          "properties": {
+            "region": {
+              "type": "string",
+              "enum": [
+                "vagina"
+              ]
+            },
+            "thirds": {
+              "$ref": "#/definitions/Field_for_Assessment_for_Array_of_VaginalThird"
+            },
+            "walls": {
+              "$ref": "#/definitions/Field_for_Assessment_for_Array_of_VaginalWall"
+            },
+            "zone_relation": {
+              "$ref": "#/definitions/Field_for_Assessment_for_ZoneRelation"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "anatomy_code",
+            "length_cm",
+            "region",
+            "tissue",
+            "width_cm"
+          ],
+          "properties": {
+            "anatomy_code": {
+              "$ref": "#/definitions/Field_for_Assessment_for_String"
+            },
+            "length_cm": {
+              "$ref": "#/definitions/Field_for_Assessment_for_double"
+            },
+            "region": {
+              "type": "string",
+              "enum": [
+                "vulva"
+              ]
+            },
+            "tissue": {
+              "$ref": "#/definitions/Field_for_Assessment_for_Tissue"
+            },
+            "width_cm": {
+              "$ref": "#/definitions/Field_for_Assessment_for_double"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "anatomy_code",
+            "dentate_line_relation",
+            "length_cm",
+            "region",
+            "width_cm"
+          ],
+          "properties": {
+            "anatomy_code": {
+              "$ref": "#/definitions/Field_for_Assessment_for_String"
+            },
+            "dentate_line_relation": {
+              "$ref": "#/definitions/Field_for_Assessment_for_DentateLineRelation"
+            },
+            "length_cm": {
+              "$ref": "#/definitions/Field_for_Assessment_for_double"
+            },
+            "region": {
+              "type": "string",
+              "enum": [
+                "anus"
+              ]
+            },
+            "width_cm": {
+              "$ref": "#/definitions/Field_for_Assessment_for_double"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Mark": {
+      "type": "object",
+      "required": [
+        "asset_id",
+        "catalog_id",
+        "properties"
+      ],
+      "properties": {
+        "asset_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "catalog_id": {
+          "type": "string"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Answer"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Origin": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "external_id",
+            "kind",
+            "source"
+          ],
+          "properties": {
+            "external_id": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "one_c"
+              ]
+            },
+            "source": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "physician"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "annotation_id",
+            "kind"
+          ],
+          "properties": {
+            "annotation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "annotation"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "method_version"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "calculation"
+              ]
+            },
+            "method_version": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Patient": {
+      "type": "object",
+      "required": [
+        "family_name",
+        "given_name",
+        "id"
+      ],
+      "properties": {
+        "birth_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "card_number": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "external_id": {
+          "description": "Identity supplied by the external patient system; never substitute the internal UUID.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "family_name": {
+          "type": "string"
+        },
+        "given_name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "patronymic": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sex": {
+          "description": "Sex supplied by 1C, F/M/O; absent when unknown for a legacy/manual patient.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Sex"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "ProcedureTest": {
+      "type": "object",
+      "required": [
+        "application",
+        "code",
+        "region",
+        "result"
+      ],
+      "properties": {
+        "application": {
+          "$ref": "#/definitions/Field_for_TestApplication"
+        },
+        "code": {
+          "type": "string"
+        },
+        "region": {
+          "$ref": "#/definitions/Region"
+        },
+        "result": {
+          "$ref": "#/definitions/Field_for_Assessment_for_String"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Protocol": {
+      "type": "object",
+      "required": [
+        "cervical_assessment",
+        "conclusion",
+        "excision",
+        "indications",
+        "recommendations",
+        "schema_version",
+        "sections",
+        "terminology_version_id",
+        "tests"
+      ],
+      "properties": {
+        "biopsies": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BiopsySpecimen"
+          }
+        },
+        "cervical_assessment": {
+          "description": "Kept separately so cervical zone types cannot be assigned to the vagina.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/CervicalAssessment"
+            }
+          ]
+        },
+        "clinical_context": {
+          "default": null,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ClinicalContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "colpo": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Colpo"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "conclusion": {
+          "$ref": "#/definitions/Field_for_Assessment_for_String"
+        },
+        "diagnoses": {
+          "description": "None preserves legacy omission; Some([]) explicitly clears all rows. Selection snapshots and array order are immutable report content.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ProtocolDiagnosis"
+          }
+        },
+        "diagnosis_note": {
+          "description": "One optional physician note for the whole ordered diagnosis list. None is legacy omission; Some(NotAssessed) is an explicit clear.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Field_for_Assessment_for_String"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "excision": {
+          "$ref": "#/definitions/ExcisionSection"
+        },
+        "history": {
+          "description": "Optional physician anamnesis. Wire name stays history for older clients. Empty assessed text is accepted for legacy roundtrips; new UI clears to NotAssessed.",
+          "default": {
+            "origin": {
+              "kind": "physician"
+            },
+            "value": {
+              "state": "not_assessed"
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/Field_for_Assessment_for_String"
+            }
+          ]
+        },
+        "indications": {
+          "$ref": "#/definitions/Field_for_Assessment_for_String"
+        },
+        "recommendations": {
+          "$ref": "#/definitions/Field_for_Assessment_for_String"
+        },
+        "schema_version": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RegionSection"
+          }
+        },
+        "terminology_version_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "tests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProcedureTest"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ProtocolDiagnosis": {
+      "type": "object",
+      "required": [
+        "additional_text",
+        "code",
+        "diagnosis_id",
+        "id",
+        "name"
+      ],
+      "properties": {
+        "additional_text": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "diagnosis_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Region": {
+      "type": "string",
+      "enum": [
+        "cervix",
+        "vagina",
+        "vulva",
+        "anus"
+      ]
+    },
+    "RegionSection": {
+      "type": "object",
+      "required": [
+        "adequacy",
+        "findings",
+        "lesions",
+        "region",
+        "state"
+      ],
+      "properties": {
+        "adequacy": {
+          "$ref": "#/definitions/Field_for_Assessment_for_Adequacy"
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Finding"
+          }
+        },
+        "lesions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Lesion"
+          }
+        },
+        "region": {
+          "$ref": "#/definitions/Region"
+        },
+        "state": {
+          "$ref": "#/definitions/Field_for_ExaminationState"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Sex": {
+      "type": "string",
+      "enum": [
+        "F",
+        "M",
+        "O"
+      ]
+    },
+    "Study": {
+      "type": "object",
+      "required": [
+        "id",
+        "patient_id",
+        "row_version",
+        "status",
+        "study_instance_uid"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "patient_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "row_version": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "string"
+        },
+        "study_instance_uid": {
+          "type": "string"
+        }
+      }
+    },
+    "TestApplication": {
+      "type": "string",
+      "enum": [
+        "performed",
+        "not_performed",
+        "not_assessed",
+        "not_applicable"
+      ]
+    },
+    "Tissue": {
+      "type": "string",
+      "enum": [
+        "hair_bearing_skin",
+        "non_hair_bearing_skin",
+        "mucosa"
+      ]
+    },
+    "VaginalThird": {
+      "type": "string",
+      "enum": [
+        "upper",
+        "middle",
+        "lower"
+      ]
+    },
+    "VaginalWall": {
+      "type": "string",
+      "enum": [
+        "anterior",
+        "posterior",
+        "left",
+        "right"
+      ]
+    },
+    "ZoneRelation": {
+      "type": "string",
+      "enum": [
+        "inside",
+        "outside",
+        "both"
+      ]
+    }
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResultRequest",
+  "description": "Secret-bearing wire payload: intentionally no Debug implementation.",
+  "type": "object",
+  "required": [
+    "application_key",
+    "appointment_date",
+    "file_name",
+    "patient_key",
+    "pdf_base64"
+  ],
+  "properties": {
+    "application_key": {
+      "type": "string",
+      "format": "uuid",
+      "not": {
+        "const": "00000000-0000-0000-0000-000000000000"
+      },
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "appointment_date": {
+      "$ref": "#/definitions/CalendarDate"
+    },
+    "diagnoses": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ResultDiagnosis"
+      },
+      "maxItems": 100,
+      "minItems": 1
+    },
+    "file_name": {
+      "description": "application_key followed by .pdf; the relationship is checked by the sender/receiver.",
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 40,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.pdf$"
+    },
+    "patient_key": {
+      "type": "string",
+      "format": "uuid",
+      "not": {
+        "const": "00000000-0000-0000-0000-000000000000"
+      },
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "pdf_base64": {
+      "description": "Base64 PDF bytes without data: prefix; decoded PDF limit 50 MiB and JSON limit 70 MiB.",
+      "type": "string",
+      "not": {
+        "pattern": "[^A-Za-z0-9+/=]"
+      },
+      "maxLength": 69905068,
+      "minLength": 1,
+      "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+      "contentEncoding": "base64",
+      "contentMediaType": "application/pdf"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "CalendarDate": {
+      "description": "Real Gregorian date YYYY-MM-DD, years 0001–9999. Pattern enforces calendar validity even when format validation is disabled.",
+      "type": "string",
+      "format": "date",
+      "maxLength": 10,
+      "minLength": 10,
+      "pattern": "^(?:(?:[0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]|[0-9][1-9][0-9]{2}|[1-9][0-9]{3})-(?:(?:01|03|05|07|08|10|12)-(?:0[1-9]|[12][0-9]|3[01])|(?:04|06|09|11)-(?:0[1-9]|[12][0-9]|30)|02-(?:0[1-9]|1[0-9]|2[0-8]))|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$"
+    },
+    "ResultDiagnosis": {
+      "description": "Frozen catalog snapshots in protocol order; diagnosis_id is the 1C Ref_Key.",
+      "type": "object",
+      "required": [
+        "code",
+        "diagnosis_id",
+        "name"
+      ],
+      "properties": {
+        "code": {
+          "description": "Nonblank frozen snapshot; maximum 32 UTF-8 bytes (validated by sender/receiver).",
+          "type": "string",
+          "maxLength": 32,
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "diagnosis_id": {
+          "type": "string",
+          "format": "uuid",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "name": {
+          "description": "Nonblank frozen snapshot; maximum 4096 UTF-8 bytes (validated by sender/receiver).",
+          "type": "string",
+          "maxLength": 4096,
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

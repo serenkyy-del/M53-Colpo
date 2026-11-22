@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ApproveProtocolRequest",
+  "description": "Approval operates on the saved revision; replacement form data is not accepted.",
+  "type": "object",
+  "required": [
+    "expected_version",
+    "revision_id",
+    "study_id"
+  ],
+  "properties": {
+    "expected_version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "revision_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "study_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "additionalProperties": false
+}

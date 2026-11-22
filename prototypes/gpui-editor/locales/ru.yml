@@ -1,0 +1,46 @@
+_version: 2
+gpui_component:
+  Calendar:
+    week.0:
+      ru: Вс
+    week.1:
+      ru: Пн
+    week.2:
+      ru: Вт
+    week.3:
+      ru: Ср
+    week.4:
+      ru: Чт
+    week.5:
+      ru: Пт
+    week.6:
+      ru: Сб
+    month.January:
+      ru: Январь
+    month.February:
+      ru: Февраль
+    month.March:
+      ru: Март
+    month.April:
+      ru: Апрель
+    month.May:
+      ru: Май
+    month.June:
+      ru: Июнь
+    month.July:
+      ru: Июль
+    month.August:
+      ru: Август
+    month.September:
+      ru: Сентябрь
+    month.October:
+      ru: Октябрь
+    month.November:
+      ru: Ноябрь
+    month.December:
+      ru: Декабрь
+  DatePicker:
+    placeholder:
+      ru: Выберите дату
+    time:
+      ru: Время

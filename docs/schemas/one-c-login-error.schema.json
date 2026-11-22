@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OneCLoginError",
+  "description": "Failures never include the password, username, upstream URL or response body.",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "one_c_login_denied"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "one_c_login_unavailable"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "HTTP 2xx from a web page is not evidence of an authenticated 1C user.",
+      "type": "object",
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "one_c_login_verification_pending"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

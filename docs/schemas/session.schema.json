@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Session",
+  "type": "object",
+  "required": [
+    "display_name",
+    "token",
+    "user_id"
+  ],
+  "properties": {
+    "display_name": {
+      "type": "string"
+    },
+    "token": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  }
+}

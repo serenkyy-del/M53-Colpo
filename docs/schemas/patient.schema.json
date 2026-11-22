@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Patient",
+  "type": "object",
+  "required": [
+    "family_name",
+    "given_name",
+    "id"
+  ],
+  "properties": {
+    "birth_date": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "external_id": {
+      "description": "Identity supplied by the external patient system; never substitute the internal UUID.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "family_name": {
+      "type": "string"
+    },
+    "given_name": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "patronymic": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sex": {
+      "description": "Sex supplied by 1C, F/M/O; absent when unknown for a legacy/manual patient.",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Sex"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "Sex": {
+      "type": "string",
+      "enum": [
+        "F",
+        "M",
+        "O"
+      ]
+    }
+  }
+}

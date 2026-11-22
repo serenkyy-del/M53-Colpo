@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Template",
+  "type": "object",
+  "required": [
+    "id",
+    "layout",
+    "version",
+    "version_id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "layout": {
+      "$ref": "#/definitions/ReportLayout"
+    },
+    "version": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "version_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "definitions": {
+    "ReportBlock": {
+      "type": "string",
+      "enum": [
+        "patient",
+        "indications",
+        "history",
+        "assessment",
+        "findings",
+        "photos",
+        "conclusion",
+        "recommendations",
+        "signature"
+      ]
+    },
+    "ReportLayout": {
+      "type": "object",
+      "required": [
+        "blocks",
+        "photo_columns",
+        "title"
+      ],
+      "properties": {
+        "blocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReportBlock"
+          }
+        },
+        "photo_columns": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

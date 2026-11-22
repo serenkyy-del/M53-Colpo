@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Page",
+  "type": "object",
+  "required": [
+    "items",
+    "version_id"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Entry"
+      }
+    },
+    "next_after": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "version_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "definitions": {
+    "Entry": {
+      "type": "object",
+      "required": [
+        "active",
+        "code",
+        "full_name",
+        "guid",
+        "is_folder",
+        "name",
+        "source_version"
+      ],
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "code": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "guid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "is_folder": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "source_version": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

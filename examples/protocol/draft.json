@@ -1,0 +1,150 @@
+{
+  "study_id": "00000000-0000-0000-0000-000000000001",
+  "expected_version": 1,
+  "protocol": {
+    "schema_version": 1,
+    "terminology_version_id": "00000000-0000-0000-0000-000000000001",
+    "indications": {
+      "value": {
+        "state": "not_assessed"
+      },
+      "origin": {
+        "kind": "physician"
+      }
+    },
+    "history": {
+      "value": {
+        "state": "not_assessed"
+      },
+      "origin": {
+        "kind": "physician"
+      }
+    },
+    "sections": [
+      {
+        "region": "cervix",
+        "state": {
+          "value": "examined",
+          "origin": {
+            "kind": "physician"
+          }
+        },
+        "adequacy": {
+          "value": {
+            "state": "assessed",
+            "value": {
+              "state": "adequate"
+            }
+          },
+          "origin": {
+            "kind": "physician"
+          }
+        },
+        "findings": [],
+        "lesions": []
+      },
+      {
+        "region": "vagina",
+        "state": {
+          "value": "not_examined",
+          "origin": {
+            "kind": "physician"
+          }
+        },
+        "adequacy": {
+          "value": {
+            "state": "not_assessed"
+          },
+          "origin": {
+            "kind": "physician"
+          }
+        },
+        "findings": [],
+        "lesions": []
+      },
+      {
+        "region": "vulva",
+        "state": {
+          "value": "not_examined",
+          "origin": {
+            "kind": "physician"
+          }
+        },
+        "adequacy": {
+          "value": {
+            "state": "not_assessed"
+          },
+          "origin": {
+            "kind": "physician"
+          }
+        },
+        "findings": [],
+        "lesions": []
+      },
+      {
+        "region": "anus",
+        "state": {
+          "value": "not_examined",
+          "origin": {
+            "kind": "physician"
+          }
+        },
+        "adequacy": {
+          "value": {
+            "state": "not_assessed"
+          },
+          "origin": {
+            "kind": "physician"
+          }
+        },
+        "findings": [],
+        "lesions": []
+      }
+    ],
+    "cervical_assessment": {
+      "junction_visibility": {
+        "value": {
+          "state": "not_assessed"
+        },
+        "origin": {
+          "kind": "physician"
+        }
+      },
+      "transformation_zone": {
+        "value": {
+          "state": "not_assessed"
+        },
+        "origin": {
+          "kind": "physician"
+        }
+      }
+    },
+    "tests": [],
+    "excision": {
+      "state": {
+        "value": "not_applicable",
+        "origin": {
+          "kind": "physician"
+        }
+      },
+      "specimens": []
+    },
+    "conclusion": {
+      "value": {
+        "state": "assessed",
+        "value": "Синтетический пример. Не медицинское заключение."
+      },
+      "origin": {
+        "kind": "physician"
+      }
+    },
+    "recommendations": {
+      "value": {
+        "state": "not_assessed"
+      },
+      "origin": {
+        "kind": "physician"
+      }
+    }
+  }
+}

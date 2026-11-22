@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OfflineGrant",
+  "type": "object",
+  "required": [
+    "expires_at",
+    "grant",
+    "grant_id",
+    "key",
+    "token_type"
+  ],
+  "properties": {
+    "expires_at": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "grant": {
+      "type": "string"
+    },
+    "grant_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "key": {
+      "description": "Convenience metadata, not a trust root: compare with a key obtained from the configured M53 server over authenticated TLS and kept in protected local storage. Never trust a replacement key just because it is inline.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OfflinePublicKey"
+        }
+      ]
+    },
+    "token_type": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "OfflinePublicKey": {
+      "description": "Public JWK; `x` is base64url without padding of the 32-byte Ed25519 public key.",
+      "type": "object",
+      "required": [
+        "alg",
+        "crv",
+        "kid",
+        "kty",
+        "x"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string"
+        },
+        "crv": {
+          "type": "string"
+        },
+        "kid": {
+          "type": "string"
+        },
+        "kty": {
+          "type": "string"
+        },
+        "x": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TerminologyVersion",
+  "type": "object",
+  "required": [
+    "clinically_approved",
+    "code",
+    "id",
+    "source"
+  ],
+  "properties": {
+    "clinically_approved": {
+      "type": "boolean"
+    },
+    "code": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "source": {
+      "type": "string"
+    }
+  }
+}

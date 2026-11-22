@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IdentityLinkRequest",
+  "type": "object",
+  "required": [
+    "application_key",
+    "expected_patient_versions",
+    "expected_study_version",
+    "expected_task_version",
+    "patient_key",
+    "reason",
+    "source_id"
+  ],
+  "properties": {
+    "application_key": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "expected_patient_versions": {
+      "description": "Exactly the original and target patients; one item if they are the same.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ExpectedPatientVersion"
+      }
+    },
+    "expected_study_version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "expected_task_version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "patient_key": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "ExpectedPatientVersion": {
+      "type": "object",
+      "required": [
+        "patient_id",
+        "row_version"
+      ],
+      "properties": {
+        "patient_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "row_version": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

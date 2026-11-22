@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Asset",
+  "type": "object",
+  "required": [
+    "byte_size",
+    "id",
+    "kind",
+    "mime_type",
+    "sha256",
+    "study_id"
+  ],
+  "properties": {
+    "byte_size": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "kind": {
+      "type": "string"
+    },
+    "mime_type": {
+      "type": "string"
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "study_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  }
+}

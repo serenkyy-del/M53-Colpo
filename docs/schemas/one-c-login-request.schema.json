@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OneCLoginRequest",
+  "description": "Password-bearing request: deliberately has no `Debug` implementation.",
+  "type": "object",
+  "required": [
+    "binding_version",
+    "doctor_id",
+    "password"
+  ],
+  "properties": {
+    "binding_version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "doctor_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "password": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DoctorPage",
+  "type": "object",
+  "required": [
+    "items"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/DoctorIdentity"
+      }
+    },
+    "next_after": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "DoctorIdentity": {
+      "type": "object",
+      "required": [
+        "active",
+        "display_name",
+        "external_ids",
+        "id",
+        "origin"
+      ],
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "external_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExternalDoctorId"
+          }
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "origin": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ExternalDoctorId": {
+      "type": "object",
+      "required": [
+        "doctor_guid",
+        "source_id"
+      ],
+      "properties": {
+        "doctor_guid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "source_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

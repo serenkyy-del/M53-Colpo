@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResultReceipt",
+  "type": "object",
+  "required": [
+    "action",
+    "application_key",
+    "file_ref_key",
+    "reception_number",
+    "reception_ref_key",
+    "success"
+  ],
+  "properties": {
+    "action": {
+      "$ref": "#/definitions/ResultAction"
+    },
+    "application_key": {
+      "type": "string",
+      "format": "uuid",
+      "not": {
+        "const": "00000000-0000-0000-0000-000000000000"
+      },
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "file_ref_key": {
+      "type": "string",
+      "format": "uuid",
+      "not": {
+        "const": "00000000-0000-0000-0000-000000000000"
+      },
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "reception_number": {
+      "type": "string"
+    },
+    "reception_ref_key": {
+      "type": "string",
+      "format": "uuid",
+      "not": {
+        "const": "00000000-0000-0000-0000-000000000000"
+      },
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "success": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "ResultAction": {
+      "type": "string",
+      "enum": [
+        "created",
+        "attached",
+        "replaced",
+        "unchanged"
+      ]
+    }
+  }
+}

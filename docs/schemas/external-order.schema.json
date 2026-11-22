@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExternalOrder",
+  "type": "object",
+  "required": [
+    "external_order_id",
+    "external_patient_id",
+    "source_revision",
+    "status"
+  ],
+  "properties": {
+    "external_order_id": {
+      "type": "string"
+    },
+    "external_patient_id": {
+      "type": "string"
+    },
+    "source_revision": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

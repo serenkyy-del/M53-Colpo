@@ -1,0 +1,93 @@
+name: Desktop and server release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build and package Windows x64
+        shell: pwsh
+        run: |
+          rustup target add x86_64-pc-windows-msvc
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python public/windows/provision-runtime.py --cache print-cache --output print-runtime
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python public/windows/verify.py print-runtime/m53-print-runtime.zip assets/print-runtime/manifest.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cargo metadata --manifest-path prototypes/gpui-editor/Cargo.toml --locked --format-version 1 --filter-platform x86_64-pc-windows-msvc --features standalone | Set-Content -Encoding utf8 metadata.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python public/release/collect_notices.py metadata.json WindowsNotices
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          & public/windows/package.ps1 -RuntimeArchive print-runtime/m53-print-runtime.zip -RustLicensesDirectory WindowsNotices -OutputDirectory release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: release/Colposcopy-Windows-x64.zip
+          if-no-files-found: error
+
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Linux desktop x64
+        run: |
+          docker build -t colposcopy-linux-builder:bookworm public/linux
+          mkdir -p build-linux/{cargo,target} release
+          version="${GITHUB_REF_NAME#v}"
+          version="${version/-preview./~preview.}"
+          docker run --rm --user "$(id -u):$(id -g)" \
+            -e CARGO_HOME=/build/cargo -e CARGO_TARGET_DIR=/build/target -e "PACKAGE_VERSION=$version" \
+            -v "$PWD:/src:ro" -v "$PWD/build-linux:/build" -v "$PWD/release:/out" -w /src \
+            colposcopy-linux-builder:bookworm sh -ec '
+            cargo metadata --manifest-path prototypes/gpui-editor/Cargo.toml --locked --format-version 1 --filter-platform x86_64-unknown-linux-gnu --features standalone > /build/metadata.json
+            python3 public/release/collect_notices.py /build/metadata.json /build/notices
+            cargo test --locked -p m53-client --no-default-features --features standalone --test diagnoses_report --test standalone_linux_storage
+            cargo build --manifest-path prototypes/gpui-editor/Cargo.toml --locked --profile distribution --features standalone --bin m53-gpui-editor
+            python3 public/linux/package.py --binary /build/target/distribution/m53-gpui-editor --version "$PACKAGE_VERSION" --notices /build/notices --output /out
+            '
+      - name: Package the server and corresponding sources
+        run: |
+          cargo metadata --locked --format-version 1 --filter-platform x86_64-unknown-linux-gnu > build-linux/server-metadata.json
+          python3 public/release/collect_notices.py build-linux/server-metadata.json release/ServerNotices
+          docker build -t colposcopy-public:local -f public/deploy/Dockerfile .
+          bash public/deploy/package-server.sh release
+          git archive --format=zip --output=release/Colposcopy-Source.zip HEAD
+          python3 public/release/dependency_sources.py release/Colposcopy-DependencySources.tar.gz --cache build-linux/cargo/registry/cache
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-and-source
+          path: |
+            release/Colposcopy-Linux-x64.deb
+            release/Colposcopy-Server-Linux-x64.tar.gz
+            release/Colposcopy-Source.zip
+            release/Colposcopy-DependencySources.tar.gz
+          if-no-files-found: error
+
+  publish:
+    needs: [windows, linux]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: release
+          merge-multiple: true
+      - name: Publish installable preview packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          (cd release && sha256sum Colposcopy-* > SHA256SUMS)
+          gh release create "$GITHUB_REF_NAME" --verify-tag --prerelease \
+            --title "M53-Colpo $GITHUB_REF_NAME" --notes-file public/release/NOTES.md release/*

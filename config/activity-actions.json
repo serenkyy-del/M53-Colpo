@@ -1,0 +1,350 @@
+{
+  "version": 1,
+  "actions": [
+    {
+      "code": "client.app.started",
+      "name": "Программа запущена",
+      "source": "client"
+    },
+    {
+      "code": "client.app.closed",
+      "name": "Программа закрыта",
+      "source": "client"
+    },
+    {
+      "code": "client.auth.offline_login",
+      "name": "Автономный вход врача",
+      "source": "client"
+    },
+    {
+      "code": "client.auth.logout_requested",
+      "name": "Запрошен выход",
+      "source": "client"
+    },
+    {
+      "code": "client.patient.selected",
+      "name": "Выбран пациент",
+      "source": "client"
+    },
+    {
+      "code": "client.tasks.refresh_requested",
+      "name": "Запрошено обновление заданий",
+      "source": "client"
+    },
+    {
+      "code": "client.study.opened",
+      "name": "Открыто обследование",
+      "source": "client"
+    },
+    {
+      "code": "client.study.closed",
+      "name": "Закрыто обследование",
+      "source": "client"
+    },
+    {
+      "code": "client.image.import_started",
+      "name": "Начат импорт снимков",
+      "source": "client"
+    },
+    {
+      "code": "client.image.import_completed",
+      "name": "Импорт снимков завершен",
+      "source": "client"
+    },
+    {
+      "code": "client.image.import_failed",
+      "name": "Ошибка импорта снимков",
+      "source": "client"
+    },
+    {
+      "code": "client.image.capture_requested",
+      "name": "Запрошен захват снимка",
+      "source": "client"
+    },
+    {
+      "code": "client.image.capture_completed",
+      "name": "Снимок получен",
+      "source": "client"
+    },
+    {
+      "code": "client.image.selected",
+      "name": "Выбран снимок",
+      "source": "client"
+    },
+    {
+      "code": "client.image.zoom_changed",
+      "name": "Изменен масштаб снимка",
+      "source": "client"
+    },
+    {
+      "code": "client.image.pan_changed",
+      "name": "Снимок перемещен в окне",
+      "source": "client"
+    },
+    {
+      "code": "client.annotation.added",
+      "name": "Добавлена метка",
+      "source": "client"
+    },
+    {
+      "code": "client.annotation.moved",
+      "name": "Перемещена метка",
+      "source": "client"
+    },
+    {
+      "code": "client.annotation.resized",
+      "name": "Изменен размер метки",
+      "source": "client"
+    },
+    {
+      "code": "client.annotation.removed",
+      "name": "Удалена метка",
+      "source": "client"
+    },
+    {
+      "code": "client.annotation.retagged",
+      "name": "Изменено обозначение метки",
+      "source": "client"
+    },
+    {
+      "code": "client.target.changed",
+      "name": "Изменена мишень",
+      "source": "client"
+    },
+    {
+      "code": "client.report_region.changed",
+      "name": "Изменена область снимка для отчета",
+      "source": "client"
+    },
+    {
+      "code": "client.protocol.field_changed",
+      "name": "Изменено поле протокола",
+      "source": "client"
+    },
+    {
+      "code": "client.protocol.section_opened",
+      "name": "Раскрыт раздел протокола",
+      "source": "client"
+    },
+    {
+      "code": "client.protocol.save_clicked",
+      "name": "Нажато сохранение протокола",
+      "source": "client"
+    },
+    {
+      "code": "client.protocol.approve_clicked",
+      "name": "Нажато утверждение протокола",
+      "source": "client"
+    },
+    {
+      "code": "client.protocol.reopen_clicked",
+      "name": "Запрошена новая редакция",
+      "source": "client"
+    },
+    {
+      "code": "client.report.previewed",
+      "name": "Открыт предпросмотр отчета",
+      "source": "client"
+    },
+    {
+      "code": "client.report.pdf_generated",
+      "name": "Сформирован PDF",
+      "source": "client"
+    },
+    {
+      "code": "client.report.print_requested",
+      "name": "Открыта печать отчета",
+      "source": "client"
+    },
+    {
+      "code": "client.report.print_dialog_closed",
+      "name": "Закрыт диалог печати",
+      "source": "client"
+    },
+    {
+      "code": "client.report.send_clicked",
+      "name": "Нажато отправить в МИС",
+      "source": "client"
+    },
+    {
+      "code": "client.settings.opened",
+      "name": "Открыты настройки",
+      "source": "client"
+    },
+    {
+      "code": "client.settings.changed",
+      "name": "Изменена настройка",
+      "source": "client"
+    },
+    {
+      "code": "client.sync.started",
+      "name": "Начата синхронизация",
+      "source": "client"
+    },
+    {
+      "code": "client.sync.finished",
+      "name": "Синхронизация завершена",
+      "source": "client"
+    },
+    {
+      "code": "client.sync.failed",
+      "name": "Ошибка синхронизации",
+      "source": "client"
+    },
+    {
+      "code": "client.sync.conflict_detected",
+      "name": "Обнаружен конфликт версий",
+      "source": "client"
+    },
+    {
+      "code": "client.sync.conflict_resolved",
+      "name": "Врач разрешил конфликт",
+      "source": "client"
+    },
+    {
+      "code": "client.camera.connected",
+      "name": "Камера подключена",
+      "source": "client"
+    },
+    {
+      "code": "client.camera.disconnected",
+      "name": "Камера отключена",
+      "source": "client"
+    },
+    {
+      "code": "client.pedal.capture_pressed",
+      "name": "Нажата педаль захвата",
+      "source": "client"
+    },
+    {
+      "code": "api.request",
+      "name": "Вызов API",
+      "source": "server_request"
+    },
+    {
+      "code": "api.patients.read",
+      "name": "Просмотр списка пациентов",
+      "source": "server_request"
+    },
+    {
+      "code": "api.studies.read",
+      "name": "Просмотр обследования или списка",
+      "source": "server_request"
+    },
+    {
+      "code": "api.tasks.read",
+      "name": "Просмотр заданий",
+      "source": "server_request"
+    },
+    {
+      "code": "api.assets.read",
+      "name": "Получение снимка",
+      "source": "server_request"
+    },
+    {
+      "code": "api.auth.login",
+      "name": "Попытка входа",
+      "source": "server_request"
+    },
+    {
+      "code": "api.auth.logout",
+      "name": "Выход",
+      "source": "server_request"
+    },
+    {
+      "code": "api.workstation.read",
+      "name": "Получение настроек рабочего места",
+      "source": "server_request"
+    },
+    {
+      "code": "api.activity.submit",
+      "name": "Передача журнала действий",
+      "source": "server_request"
+    },
+    {
+      "code": "api.updates.check",
+      "name": "Проверка обновления",
+      "source": "server_request"
+    },
+    {
+      "code": "api.updates.download",
+      "name": "Загрузка обновления",
+      "source": "server_request"
+    },
+    {
+      "code": "api.updates.status",
+      "name": "Статус обновления",
+      "source": "server_request"
+    },
+    {
+      "code": "api.events.subscribe",
+      "name": "Подключение уведомлений",
+      "source": "server_request"
+    },
+    {
+      "code": "api.clinical.write",
+      "name": "Изменение клинических данных",
+      "source": "server_request"
+    },
+    {
+      "code": "api.report.read",
+      "name": "Получение отчета или статуса доставки",
+      "source": "server_request"
+    },
+    {
+      "code": "api.catalog.read",
+      "name": "Получение справочника",
+      "source": "server_request"
+    },
+    {
+      "code": "client.phrase.applied",
+      "name": "Применена фраза к полю",
+      "source": "client"
+    },
+    {
+      "code": "client.phrase.editor_opened",
+      "name": "Открыт редактор фразы",
+      "source": "client"
+    },
+    {
+      "code": "client.phrase.save_requested",
+      "name": "Запрошено сохранение фразы",
+      "source": "client"
+    },
+    {
+      "code": "client.phrase.preferences_changed",
+      "name": "Изменены настройки фраз на клиенте",
+      "source": "client"
+    },
+    {
+      "code": "server.phrase.created",
+      "name": "Создан шаблон фразы",
+      "source": "server_request"
+    },
+    {
+      "code": "server.phrase.updated",
+      "name": "Изменен шаблон фразы",
+      "source": "server_request"
+    },
+    {
+      "code": "server.phrase.preferences_updated",
+      "name": "Сохранены настройки фраз",
+      "source": "server_request"
+    },
+    {
+      "code": "api.phrases.read",
+      "name": "Чтение библиотеки фраз",
+      "source": "server_request"
+    },
+    {
+      "code": "api.phrases.write",
+      "name": "Изменение библиотеки фраз",
+      "source": "server_request"
+    },
+    {
+      "code": "client.phrase.local_applied",
+      "name": "Применена локальная несинхронизированная фраза",
+      "source": "client"
+    }
+  ]
+}

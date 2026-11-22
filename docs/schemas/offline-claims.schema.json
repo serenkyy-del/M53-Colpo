@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OfflineClaims",
+  "type": "object",
+  "required": [
+    "aud",
+    "auth_provider",
+    "auth_version",
+    "credential_id",
+    "display_name",
+    "doctor_id",
+    "exp",
+    "external_doctor_ids",
+    "iat",
+    "iss",
+    "jti",
+    "nbf",
+    "organization_id",
+    "permissions",
+    "purpose",
+    "roles",
+    "schema_version",
+    "sub",
+    "workstation_id"
+  ],
+  "properties": {
+    "aud": {
+      "type": "string"
+    },
+    "auth_provider": {
+      "type": "string"
+    },
+    "auth_version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "credential_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "doctor_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "exp": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "external_doctor_ids": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ExternalDoctorId"
+      }
+    },
+    "external_user_guid": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "iat": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "iss": {
+      "type": "string"
+    },
+    "jti": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "nbf": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "organization_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "permissions": {
+      "$ref": "#/definitions/OfflinePermissions"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "sub": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "workstation_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "ExternalDoctorId": {
+      "type": "object",
+      "required": [
+        "doctor_guid",
+        "source_id"
+      ],
+      "properties": {
+        "doctor_guid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "source_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "additionalProperties": false
+    },
+    "OfflinePermissions": {
+      "type": "object",
+      "required": [
+        "allow_continue_open_encounter",
+        "allow_local_print",
+        "allow_new_manual_encounter"
+      ],
+      "properties": {
+        "allow_continue_open_encounter": {
+          "type": "boolean"
+        },
+        "allow_local_print": {
+          "type": "boolean"
+        },
+        "allow_new_manual_encounter": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

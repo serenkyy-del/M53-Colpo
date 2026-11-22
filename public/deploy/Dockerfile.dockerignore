@@ -1,0 +1,11 @@
+**
+!Cargo.toml
+!Cargo.lock
+!crates/
+!crates/**
+crates/client/assets/m53-tls-root.pem
+!migrations/
+!migrations/*.sql
+!public/
+!public/deploy/
+!public/deploy/entrypoint.sh
