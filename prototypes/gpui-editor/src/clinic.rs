@@ -19,10 +19,10 @@ use uuid::Uuid;
 mod approval_flow;
 use approval_flow::{Notice as ApprovalNotice, Pending as PendingApproval, Step as ApprovalStep};
 
-#[cfg(windows)]
+#[cfg(any(windows, all(target_os = "linux", feature = "standalone")))]
 pub use m53_client::offline_profile::LoginProfile;
-// Headless Linux render fixture has no DPAPI/authentication implementation.
-#[cfg(not(windows))]
+// The remaining headless development configuration has no persistent login.
+#[cfg(not(any(windows, all(target_os = "linux", feature = "standalone"))))]
 #[derive(Clone)]
 pub struct LoginProfile {
     pub login:String,
