@@ -4,13 +4,15 @@
 
 ## Установка
 
-Скачайте готовый пакет из [GitHub Releases](https://github.com/serenkyy-del/M53-Colpo/releases).
+Готовые пакеты [v0.1.0-preview.2](https://github.com/serenkyy-del/M53-Colpo/releases/tag/v0.1.0-preview.2) устанавливаются без компиляции.
 
 | Платформа | Файл и запуск |
 | --- | --- |
-| Windows 10/11 x64 | Распакуйте `Colposcopy-Windows-x64.zip`. Запустите `Setup.ps1` для установки или `Colposcopy.exe` из распакованной папки. |
-| Debian 12 или Ubuntu 24.04 x64 | Скачайте `Colposcopy-Linux-x64.deb` и выполните `sudo apt install ./Colposcopy-Linux-x64.deb`. «Кольпоскопия» появится в меню приложений. |
-| Сервер Linux x64 | Распакуйте `Colposcopy-Server-Linux-x64.tar.gz` и загрузите образ по руководству администратора. |
+| Windows 10/11 x64 | [Скачать Windows ZIP](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/Colposcopy-Windows-x64.zip). Распакуйте архив. Запустите `Setup.ps1` для установки или `Colposcopy.exe` из распакованной папки. |
+| Debian 12 или Ubuntu 24.04 x64 | [Скачать Linux DEB](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/Colposcopy-Linux-x64.deb) и выполните `sudo apt install ./Colposcopy-Linux-x64.deb`. «Кольпоскопия» появится в меню приложений. |
+| Сервер Linux x64 | [Скачать серверный архив](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/Colposcopy-Server-Linux-x64.tar.gz). Распакуйте его и загрузите образ по руководству администратора. |
+
+[Контрольные суммы SHA-256](https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2/SHA256SUMS)
 
 Для работы клиенту нужны адрес своего сервера, ключ рабочего места и учётная запись врача. Linux-клиент поддерживает импорт снимков, просмотр PDF и печать через CUPS. Для прямого захвата с камеры используется Windows-клиент.
 
