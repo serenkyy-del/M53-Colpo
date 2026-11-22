@@ -83,3 +83,10 @@ pub const APP_NAME: &str = if cfg!(feature = "standalone") {
 } else {
     "М53 · Кольпоскопия"
 };
+
+/// The build may point to the release containing its corresponding source.
+pub fn public_source_url() -> &'static str {
+    option_env!("COLPOSCOPY_SOURCE_URL")
+        .filter(|url| url.starts_with("https://"))
+        .unwrap_or("https://github.com/serenkyy-del/M53-Colpo")
+}

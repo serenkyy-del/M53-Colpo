@@ -1,4 +1,11 @@
 name: colposcopy-public
+
+x-server-runtime: &server-runtime
+  image: debian:bookworm-slim
+  user: "10001:10001"
+  network_mode: host
+  entrypoint: ["/bin/sh", "/usr/local/bin/colposcopy-entrypoint"]
+
 services:
   db:
     image: postgres:16-bookworm
@@ -15,14 +22,21 @@ services:
       interval: 5s
       retries: 12
     restart: unless-stopped
+  assets-init:
+    image: debian:bookworm-slim
+    network_mode: none
+    entrypoint: ["/bin/sh", "-ec"]
+    command: ["chown 10001:10001 /assets"]
+    cap_drop: [ALL]
+    cap_add: [CHOWN]
+    security_opt: [no-new-privileges:true]
+    volumes: ["assets:/assets"]
   server:
-    build:
-      context: ../..
-      dockerfile: public/deploy/Dockerfile
-    image: colposcopy-public:local
-    network_mode: host
+    <<: *server-runtime
+    command: ["serve"]
     depends_on:
       db: {condition: service_healthy}
+      assets-init: {condition: service_completed_successfully}
     environment:
       M53_DEPLOYMENT_DATABASE: m53colpo
       M53_LISTEN: 127.0.0.1:8787
@@ -31,16 +45,21 @@ services:
       M53_OFFLINE_GRANT_DAYS: "30"
       M53_OFFLINE_ALLOW_NEW_ENCOUNTERS: "1"
     secrets: [app_password, offline_key]
-    volumes: ["assets:/assets"]
+    volumes:
+      - assets:/assets
+      - ./bin/colposcopy-server:/usr/local/bin/server:ro
+      - ./entrypoint.sh:/usr/local/bin/colposcopy-entrypoint:ro
     read_only: true
     tmpfs: [/tmp]
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
     restart: unless-stopped
   admin:
+    <<: *server-runtime
     profiles: [admin]
-    image: colposcopy-public:local
-    network_mode: host
+    volumes:
+      - ./bin/colposcopy-server:/usr/local/bin/server:ro
+      - ./entrypoint.sh:/usr/local/bin/colposcopy-entrypoint:ro
     environment:
       DEPLOY_ADMIN: "1"
       M53_DEPLOYMENT_DATABASE: m53colpo
