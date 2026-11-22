@@ -10,14 +10,21 @@ from verify_release import audit_windows
 
 class WindowsArchiveTest(unittest.TestCase):
     def test_accepts_real_versioned_notice_path_and_windows_manifest_line_endings(self):
+        self.audit_print_manifest(b'original')
+
+    def test_rejects_modified_print_pin(self):
+        with self.assertRaisesRegex(ValueError, 'Print pins differ from the source'):
+            self.audit_print_manifest(b'changed')
+
+    def audit_print_manifest(self, windows_pin):
         release_url = 'https://example.org/releases/preview'
-        print_manifest = b'{\n  "format": 1,\n  "sources": []\n}\n'
+        print_manifest = b'{\n  "format": 1,\n  "sha256": "original"\n}\n'
         files = {
             'Colposcopy.exe': b'MZ' + release_url.encode(),
             'Setup.ps1': b'# Setup',
             'Install-PrintRuntime.ps1': b'# Print setup',
             'README.txt': b'Preview',
-            'print-runtime-manifest.json': print_manifest.replace(b'\n', b'\r\n'),
+            'print-runtime-manifest.json': print_manifest.replace(b'original', windows_pin).replace(b'\n', b'\r\n'),
             'licenses/LICENSE': b'GNU AFFERO GENERAL PUBLIC LICENSE',
             'licenses/FONT-LICENSE.txt': b'Font license',
             'licenses/rust/DEPENDENCIES.tsv': b'TOML package',

@@ -1,4 +1,4 @@
-name: Audit the published Windows installer
+name: Audit the published release
 
 on:
   workflow_dispatch:
@@ -6,11 +6,36 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/installer-audit.yml'
+      - 'public/release/verify_release.py'
+      - 'public/release/test_verify_release.py'
 
 permissions:
   contents: read
 
+env:
+  AUDIT_RELEASE_TAG: v0.1.0-preview.3
+
 jobs:
+  manifests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - name: Check the Windows manifest regression cases
+        run: python3 -m unittest discover -s public/release -p test_verify_release.py
+      - name: Audit the downloaded release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download "$AUDIT_RELEASE_TAG" --dir release \
+            --pattern 'Colposcopy-Windows-x64.zip' --pattern 'Colposcopy-Linux-x64.deb' \
+            --pattern 'Colposcopy-Server-Linux-x64.tar.gz' --pattern 'Colposcopy-Source.zip' \
+            --pattern 'Colposcopy-DependencySources.tar.gz' --pattern 'SHA256SUMS'
+          (cd release && sha256sum --check SHA256SUMS)
+          python3 public/release/verify_release.py release \
+            --release-url "https://github.com/$GITHUB_REPOSITORY/releases/tag/$AUDIT_RELEASE_TAG"
   windows:
     runs-on: windows-2025
     timeout-minutes: 10
@@ -21,7 +46,7 @@ jobs:
       - name: Verify the published ZIP checksum
         shell: pwsh
         run: |
-          $base = 'https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.3'
+          $base = "https://github.com/$env:GITHUB_REPOSITORY/releases/download/$env:AUDIT_RELEASE_TAG"
           Invoke-WebRequest "$base/Colposcopy-Windows-x64.zip" -OutFile published.zip
           Invoke-WebRequest "$base/SHA256SUMS" -OutFile SHA256SUMS
           $sums = Get-Content -LiteralPath SHA256SUMS -Encoding UTF8 -Raw
