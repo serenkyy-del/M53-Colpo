@@ -1,0 +1,29 @@
+name: Audit the published Windows installer
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/installer-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Verify and install the published preview.2 package
+        shell: pwsh
+        run: |
+          $base = 'https://github.com/serenkyy-del/M53-Colpo/releases/download/v0.1.0-preview.2'
+          Invoke-WebRequest "$base/Colposcopy-Windows-x64.zip" -OutFile published.zip
+          $sums = (Invoke-WebRequest "$base/SHA256SUMS").Content
+          $expected = [regex]::Match($sums, '(?m)^([a-f0-9]{64})  Colposcopy-Windows-x64\.zip\s*$').Groups[1].Value
+          if (-not $expected -or (Get-FileHash published.zip -Algorithm SHA256).Hash -ine $expected) { throw 'Published checksum mismatch' }
+          & public/windows/test-setup.ps1 -Archive published.zip
